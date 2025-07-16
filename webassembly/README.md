@@ -12,6 +12,30 @@ Since it uses C\++11 features, it requires a compiler with good C++11 support.
 You will need [emscripten](https://emscripten.org/) and a [browser that supports WebAssembly](https://caniuse.com/#feat=wasm).
 
 
+# Installing and Setting Up emsdk (Emscripten SDK)
+
+# ① Download emsdk
+# (Clone the Emscripten SDK repository)
+git clone https://github.com/emscripten-core/emsdk.git
+cd emsdk
+
+# ② Install the latest toolchain
+# (This will download 10~300 MB)
+./emsdk install latest
+
+# ③ Activate for current user
+# (This will create ~/.emscripten)
+./emsdk activate latest
+
+# ④ Apply environment variables to this shell
+# (Sets PATH, EMSDK, EM_CONFIG)
+source ./emsdk_env.sh
+
+# ⑤ Check if everything works
+# (If you see a version string, it is successful)
+em++ --version
+
+
 # Building WebAssembly binaries
 
 First, download and install emscripten sdk as [described here](https://emscripten.org/docs/getting_started/downloads.html#installation-instructions)
