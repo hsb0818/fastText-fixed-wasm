@@ -73,53 +73,9 @@ clean:
 
 
 EMCXX = em++
-EMCXXFLAGS = --bind --std=c++11 -s WASM=1 -s ALLOW_MEMORY_GROWTH=1 -s "EXTRA_EXPORTED_RUNTIME_METHODS=['addOnPostRun', 'FS']" -s "DISABLE_EXCEPTION_CATCHING=0" -s "EXCEPTION_DEBUG=1" -s "FORCE_FILESYSTEM=1" -s "MODULARIZE=1" -s "EXPORT_ES6=1" -s 'EXPORT_NAME="FastTextModule"' -Isrc/
-EMOBJS = args.bc autotune.bc matrix.bc dictionary.bc loss.bc productquantizer.bc densematrix.bc quantmatrix.bc vector.bc model.bc utils.bc meter.bc fasttext.bc main.bc
+EMCXXFLAGS = --bind --std=c++11 -s WASM=1 -s ALLOW_MEMORY_GROWTH=1 -s "EXPORTED_RUNTIME_METHODS=['addOnPostRun', 'FS']" -s "DISABLE_EXCEPTION_CATCHING=0" -s "EXCEPTION_DEBUG=1" -s "FORCE_FILESYSTEM=1" -s "MODULARIZE=1" -s "EXPORT_ES6=1" -s 'EXPORT_NAME="FastTextModule"' -Isrc/
 
-
-main.bc: webassembly/fasttext_wasm.cc
-	$(EMCXX) $(EMCXXFLAGS)  webassembly/fasttext_wasm.cc -o main.bc
-
-args.bc: src/args.cc src/args.h
-	$(EMCXX) $(EMCXXFLAGS)  src/args.cc -o args.bc
-
-autotune.bc: src/autotune.cc src/autotune.h
-	$(EMCXX) $(EMCXXFLAGS)  src/autotune.cc -o autotune.bc
-
-matrix.bc: src/matrix.cc src/matrix.h
-	$(EMCXX) $(EMCXXFLAGS) src/matrix.cc -o matrix.bc
-
-dictionary.bc: src/dictionary.cc src/dictionary.h src/args.h
-	$(EMCXX) $(EMCXXFLAGS)  src/dictionary.cc -o dictionary.bc
-
-loss.bc: src/loss.cc src/loss.h src/matrix.h src/real.h
-	$(EMCXX) $(EMCXXFLAGS) src/loss.cc -o loss.bc
-
-productquantizer.bc: src/productquantizer.cc src/productquantizer.h src/utils.h
-	$(EMCXX) $(EMCXXFLAGS)  src/productquantizer.cc -o productquantizer.bc
-
-densematrix.bc: src/densematrix.cc src/densematrix.h src/utils.h src/matrix.h
-	$(EMCXX) $(EMCXXFLAGS) src/densematrix.cc -o densematrix.bc
-
-quantmatrix.bc: src/quantmatrix.cc src/quantmatrix.h src/utils.h src/matrix.h
-	$(EMCXX) $(EMCXXFLAGS) src/quantmatrix.cc -o quantmatrix.bc
-
-vector.bc: src/vector.cc src/vector.h src/utils.h
-	$(EMCXX) $(EMCXXFLAGS)  src/vector.cc -o vector.bc
-
-model.bc: src/model.cc src/model.h src/args.h
-	$(EMCXX) $(EMCXXFLAGS)  src/model.cc -o model.bc
-
-utils.bc: src/utils.cc src/utils.h
-	$(EMCXX) $(EMCXXFLAGS)  src/utils.cc -o utils.bc
-
-meter.bc: src/meter.cc src/meter.h
-	$(EMCXX) $(EMCXXFLAGS)  src/meter.cc -o meter.bc
-
-fasttext.bc: src/fasttext.cc src/*.h
-	$(EMCXX) $(EMCXXFLAGS)  src/fasttext.cc -o fasttext.bc
-
-webassembly/fasttext_wasm.js: $(EMOBJS) webassembly/fasttext_wasm.cc Makefile
-	$(EMCXX) $(EMCXXFLAGS) $(EMOBJS) -o webassembly/fasttext_wasm.js
+webassembly/fasttext_wasm.js: src/*.cc webassembly/fasttext_wasm.cc Makefile
+	$(EMCXX) $(EMCXXFLAGS) src/args.cc src/autotune.cc src/matrix.cc src/dictionary.cc src/loss.cc src/productquantizer.cc src/densematrix.cc src/quantmatrix.cc src/vector.cc src/model.cc src/utils.cc src/meter.cc src/fasttext.cc webassembly/fasttext_wasm.cc -o webassembly/fasttext_wasm.js
 
 

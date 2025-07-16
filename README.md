@@ -1,4 +1,7 @@
 # fastText
+
+**This project is a fork of fastText, specifically aimed at fixing and improving the WebAssembly (WASM) Makefile and build process.**
+
 [fastText](https://fasttext.cc/) is a library for efficient learning of word representations and sentence classification.
 
 [![CircleCI](https://circleci.com/gh/facebookresearch/fastText/tree/master.svg?style=svg)](https://circleci.com/gh/facebookresearch/fastText/tree/master)
